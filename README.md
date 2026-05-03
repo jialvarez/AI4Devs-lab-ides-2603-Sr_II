@@ -1,6 +1,4 @@
-<p align="center">
-  <img src="./screenshot.gif" alt="Demostración del sistema: panel del reclutador, lista de candidatos y alta de candidato" width="100%" />
-</p>
+![Demo animada](./screenshot.gif)
 
 > ### Documentación del proyecto (lo implementado y cómo se asegura la calidad)
 >
