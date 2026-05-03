@@ -1,3 +1,15 @@
+<p align="center">
+  <img src="./screenshot.gif" alt="Demostración del sistema: panel del reclutador, lista de candidatos y alta de candidato" width="100%" />
+</p>
+
+> ### Documentación del proyecto (lo implementado y cómo se asegura la calidad)
+>
+> **[Abrir `docs/README.md` →](./docs/README.md)** — funcionalidades ATS (alta y listado de candidatos), API, seguridad, validación y suites de tests.
+>
+> *El cuerpo de este `README.md` conserva sobre todo el **enunciado del laboratorio** y la guía mínima para instalar y ejecutar el repositorio.*
+
+---
+
 # LTI - Talent Tracking System  | EN
 
 This project is a full-stack application with a React frontend and an Express backend using Prisma as an ORM. The frontend is initiated with Create React App, and the backend is written in TypeScript.
