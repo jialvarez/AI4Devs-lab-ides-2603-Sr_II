@@ -15,6 +15,7 @@
 # production
 **/build
 **/dist
+**/uploads
 
 # logs
 npm-debug.log*
