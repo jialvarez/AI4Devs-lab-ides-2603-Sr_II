@@ -7,7 +7,8 @@ const devToken = 'dev-lti-recruiter-token';
 function buildMockPrisma(): PrismaClient {
   return {
     candidate: {
-      findMany: jest.fn().mockResolvedValue([{ education: 'Grado en Informática' }]),
+      findMany: jest.fn().mockResolvedValue([]),
+      findUnique: jest.fn(),
       create: jest.fn().mockResolvedValue({ id: 1 }),
     },
   } as unknown as PrismaClient;
@@ -26,6 +27,40 @@ describe('API ATS', () => {
   it('POST /api/candidates sin token responde 401', async () => {
     const response = await request(app).post('/api/candidates').send({});
     expect(response.status).toBe(401);
+  });
+
+  it('GET /api/candidates sin token responde 401', async () => {
+    const response = await request(app).get('/api/candidates');
+    expect(response.status).toBe(401);
+  });
+
+  it('GET /api/candidates con token devuelve lista', async () => {
+    (mockPrisma.candidate.findMany as jest.Mock).mockResolvedValueOnce([
+      {
+        id: 1,
+        firstName: 'Ana',
+        lastName: 'Ruiz',
+        email: 'ana@example.com',
+        createdAt: new Date('2026-01-02T12:00:00.000Z'),
+        cvFilePath: null,
+      },
+    ]);
+    const response = await request(app)
+      .get('/api/candidates')
+      .set('Authorization', `Bearer ${devToken}`);
+    expect(response.status).toBe(200);
+    expect(response.body.candidates).toHaveLength(1);
+    expect(response.body.candidates[0].fullName).toBe('Ana Ruiz');
+    expect(response.body.candidates[0].cv.status).toBe('none');
+  });
+
+  it('GET /api/candidates/:id/cv sin candidato responde 404 JSON', async () => {
+    (mockPrisma.candidate.findUnique as jest.Mock).mockResolvedValueOnce(null);
+    const response = await request(app)
+      .get('/api/candidates/999/cv')
+      .set('Authorization', `Bearer ${devToken}`);
+    expect(response.status).toBe(404);
+    expect(response.body.code).toBe('NOT_FOUND');
   });
 
   it('POST /api/candidates con token y datos válidos responde 201', async () => {
